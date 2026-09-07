@@ -1,10 +1,7 @@
 # ---------- Build stage ----------
-FROM eclipse-temurin:25-jdk-alpine AS builder
+FROM eclipse-temurin:25-jdk AS builder
 
 WORKDIR /build
-
-# Install bash (required for mvnw on Alpine)
-RUN apk add --no-cache bash
 
 # Copy Maven wrapper files first
 COPY .mvn .mvn

@@ -5,14 +5,14 @@ scrape_configs:
   - job_name: 'tracking-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8080']
+      - targets: ['tracking-service:8080']
 
   - job_name: 'ingestion-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8081']
+      - targets: ['ingestion-service:8081']
 
   - job_name: 'gateway-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8082']
+      - targets: ['gateway-service:8082']
