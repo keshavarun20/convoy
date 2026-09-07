@@ -1,0 +1,17 @@
+type Query {
+  driver(id: String!): Driver
+  driversNearby(latitude: Float!, longitude: Float!, radiusKm: Int!): [DriverLocation!]!
+}
+
+type Driver {
+  id: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+type DriverLocation {
+    id: String!
+    latitude: Float!
+    longitude: Float!
+    distance: Float!
+}
