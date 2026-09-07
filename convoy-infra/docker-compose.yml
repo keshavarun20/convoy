@@ -1,0 +1,45 @@
+services:
+  tracking-service:
+    build: ./tracking-service
+    ports:
+      - "9090:9090"
+      - "8080:8080"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+
+  ingestion-service:
+    build: ./ingestion-service
+    ports:
+      - "8081:8081"
+    environment:
+      GRPC_HOST: tracking-service
+      GRPC_PORT: 9090
+    depends_on:
+      - tracking-service
+
+  gateway-service:
+    build: ./gateway-service
+    ports:
+      - "8082:8082"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./convoy-infra/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - tracking-service
+      - ingestion-service
+      - gateway-service
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
